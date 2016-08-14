@@ -33,6 +33,16 @@ trait RelationTrait
     }
 
     /**
+     * Returns all issues related to project.
+     *
+     * @return Relations\HasMany
+     */
+    public function _openIssues()
+    {
+        return $this->issues()->where('status', '=', Project\Issue::STATUS_OPEN);
+    }
+
+    /**
      * Returns issues in the project with user details eager loaded.
      *
      * @return Relations\HasMany
@@ -103,6 +113,19 @@ trait RelationTrait
     {
         return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_kanban_tags', 'project_id', 'tag_id')
             ->orderBy('position');
+    }
+
+    /**
+     * Scope a query to only include users of a given type.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithRoleLimitForUser($query, User $user)
+    {
+        return $query->where(function (Eloquent\Builder $query) use ($user) {
+            $query->where('role_limit', '<=', $user->role_id);
+            $query->orWhere('role_limit', '=', null);
+        });
     }
 
     abstract public function hasMany($related, $foreignKey = null, $localKey = null);

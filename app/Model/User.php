@@ -19,6 +19,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Extensions\Auth\LoggedUser;
+use Tinyissue\Model\Relations\User\Relations;
 
 /**
  * User is model class for users.
@@ -52,10 +53,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 {
     use Authenticatable,
         CanResetPassword,
-        Traits\User\CountTrait,
-        Traits\User\RelationTrait,
-        Traits\User\CrudTrait,
-        Traits\User\QueryTrait,
+        Relations,
         LoggedUser;
 
     /**

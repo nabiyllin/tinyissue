@@ -45,6 +45,9 @@ class RouteServiceProvider extends ServiceProvider
         $router->model('tag', 'Tinyissue\Model\Tag');
         $router->model('user', 'Tinyissue\Model\User');
 
+
+        $router->bind('user', 'Tinyissue\Repository\User@load');
+
         $router->pattern('project', '[0-9]+');
         $router->pattern('issue', '[0-9]+');
         $router->pattern('comment', '[0-9]+');
